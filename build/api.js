@@ -1,0 +1,138 @@
+(function() {
+  var Metric;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+  Metric = (function() {
+
+    function Metric() {
+      this.lineGraph = __bind(this.lineGraph, this);
+    }
+
+    Metric.prototype.setApiKey = function(api_key) {
+      return this.api_key = api_key;
+    };
+
+    Metric.prototype.getChart = function(container, metrics, tokens, range) {
+      if (metrics.constructor === String) metrics = [metrics];
+      if (tokens.constructor === String) tokens = [tokens];
+      return this.lineGraph(container, metrics, tokens, range);
+    };
+
+    Metric.prototype.generateUrl = function(metric, range, token) {
+      return "http://api.metric.io/receive?api_key=" + this.api_key + "&token=" + token + "&metric=" + metric + "&range=" + range + "&callback=?";
+    };
+
+    Metric.prototype.getData = function(url, callback) {
+      var parsed_data;
+      parsed_data = [];
+      return $.getJSON(url, function(data, textStatus) {
+        $.each(data, function(index, value) {
+          return parsed_data.push([value[0], parseInt(value[1], 10)]);
+        });
+        return callback(parsed_data);
+      });
+    };
+
+    Metric.prototype.lineGraph = function(container, metrics, tokens, range) {
+      var _this = this;
+      window.chart = {};
+      return $(function() {
+        var options;
+        options = {
+          chart: {
+            animation: false,
+            renderTo: container,
+            defaultSeriesType: 'column',
+            marginTop: 20,
+            marginleft: 20,
+            marginright: 20,
+            plotBorderWidth: 2
+          },
+          colors: ["#a1cf32"],
+          credits: {
+            enabled: false
+          },
+          tooltip: {
+            formatter: function() {
+              return '<strong>' + this.series.name(+'</strong><br/>' + this.y + '<br/>' + '' + Highcharts.dateFormat('%B %d, %Y', this.x));
+            }
+          },
+          title: {
+            text: null
+          },
+          xAxis: {
+            labels: {
+              enabled: true,
+              formatter: function() {
+                return Highcharts.dateFormat('%b %d', this.value);
+              }
+            },
+            type: 'datetime',
+            dateTimeLabelFormats: {
+              day: '%e %b'
+            },
+            tickWidth: 0,
+            gridLineWidth: 0,
+            tickLength: 0
+          },
+          yAxis: {
+            title: null,
+            allowDecimals: false,
+            labels: {
+              align: 'left',
+              x: 2,
+              y: -2
+            },
+            reversed: false,
+            startOnTick: false
+          },
+          legend: {
+            enabled: false
+          },
+          plotOptions: {
+            line: {
+              animation: true,
+              marker: {
+                enabled: true,
+                states: {
+                  hover: {
+                    enabled: true
+                  }
+                }
+              }
+            }
+          },
+          series: []
+        };
+        return $.each(metrics, function(index, metric) {
+          var url;
+          url = _this.generateUrl(metric, range, tokens[index]);
+          return _this.getData(url, function(parsed_data) {
+            var data;
+            data = {
+              type: 'line',
+              name: metric,
+              data: parsed_data
+            };
+            options.series.push(data);
+            if (index === 0) {
+              return window.chart = new Highcharts.Chart(options);
+            } else {
+              return window.chart = new Highcharts.Chart(options);
+            }
+          });
+        });
+      });
+    };
+
+    return Metric;
+
+  })();
+
+  if (typeof window === 'undefined') {
+    this.metric = new Metric;
+  } else {
+    window.metric = new Metric;
+  }
+
+}).call(this);

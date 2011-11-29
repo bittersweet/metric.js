@@ -3,7 +3,7 @@ jsdom = require('jsdom').jsdom
 window = jsdom().createWindow()
 global.window = window
 
-require("../api.coffee")
+require("../src/api.coffee")
 describe 'api', ->
 
   it 'sets api key', ->
