@@ -1,0 +1,13 @@
+{
+  "name": "metric.js",
+  "description": "Javascript library for use with metric.io",
+  "version": "0.1.0",
+  "author": "Mark Mulder <markmulder@gmail.com>",
+  "devDependencies": {
+    "jsdom": "0.2.x",
+    "jasmine-node": "1.0.x",
+    "coffee-script": "1.1.x"
+  },
+  "engine": "node >= 0.4.1",
+  "scripts": { "test": "jasmine-node --coffee ."}
+}
