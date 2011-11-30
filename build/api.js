@@ -1,25 +1,19 @@
 (function() {
   var Metric;
 
-  Metric = (function() {
-
-    function Metric() {}
-
-    Metric.prototype.setApiKey = function(api_key) {
+  Metric = {
+    setApiKey: function(api_key) {
       return this.api_key = api_key;
-    };
-
-    Metric.prototype.getChart = function(container, metrics, tokens, range) {
+    },
+    getChart: function(container, metrics, tokens, range) {
       if (metrics.constructor === String) metrics = [metrics];
       if (tokens.constructor === String) tokens = [tokens];
       return this.lineGraph(container, metrics, tokens, range);
-    };
-
-    Metric.prototype.generateUrl = function(metric, range, token) {
+    },
+    generateUrl: function(metric, range, token) {
       return "http://api.metric.io/receive?api_key=" + this.api_key + "&token=" + token + "&metric=" + metric + "&range=" + range + "&callback=?";
-    };
-
-    Metric.prototype.getData = function(url, callback) {
+    },
+    getData: function(url, callback) {
       var parsed_data;
       parsed_data = [];
       return $.getJSON(url, function(data, textStatus) {
@@ -28,9 +22,8 @@
         });
         return callback(parsed_data);
       });
-    };
-
-    Metric.prototype.lineGraph = function(container, metrics, tokens, range) {
+    },
+    lineGraph: function(container, metrics, tokens, range) {
       window.chart = {};
       return $(function() {
         var options;
@@ -120,16 +113,13 @@
           });
         });
       });
-    };
-
-    return Metric;
-
-  })();
+    }
+  };
 
   if (typeof window === 'undefined') {
-    this.metric = new Metric;
+    this.metric = Metric;
   } else {
-    window.metric = new Metric;
+    window.metric = Metric;
   }
 
 }).call(this);

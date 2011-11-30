@@ -1,4 +1,4 @@
-class Metric
+Metric =
   setApiKey: (api_key) ->
     @api_key = api_key
   getChart: (container, metrics, tokens, range) ->
@@ -84,7 +84,7 @@ class Metric
             window.chart = new Highcharts.Chart(options)
 
 if typeof window == 'undefined'
-  this.metric = new Metric
+  this.metric = Metric
 else
-  window.metric = new Metric
+  window.metric = Metric
 
