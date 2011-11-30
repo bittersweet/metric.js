@@ -1,12 +1,9 @@
 (function() {
   var Metric;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Metric = (function() {
 
-    function Metric() {
-      this.lineGraph = __bind(this.lineGraph, this);
-    }
+    function Metric() {}
 
     Metric.prototype.setApiKey = function(api_key) {
       return this.api_key = api_key;
@@ -34,10 +31,10 @@
     };
 
     Metric.prototype.lineGraph = function(container, metrics, tokens, range) {
-      var _this = this;
       window.chart = {};
       return $(function() {
         var options;
+        var _this = this;
         options = {
           chart: {
             animation: false,
@@ -54,7 +51,7 @@
           },
           tooltip: {
             formatter: function() {
-              return '<strong>' + this.series.name(+'</strong><br/>' + this.y + '<br/>' + '' + Highcharts.dateFormat('%B %d, %Y', this.x));
+              return "<strong>" + this.series.name + "</strong><br/>" + this.y + "<br/>" + (Highcharts.dateFormat('%B %d, %Y', this.x));
             }
           },
           title: {
@@ -106,8 +103,8 @@
         };
         return $.each(metrics, function(index, metric) {
           var url;
-          url = _this.generateUrl(metric, range, tokens[index]);
-          return _this.getData(url, function(parsed_data) {
+          url = window.metric.generateUrl(metric, range, tokens[index]);
+          return window.metric.getData(url, function(parsed_data) {
             var data;
             data = {
               type: 'line',

@@ -18,10 +18,10 @@ class Metric
         parsed_data.push([value[0], parseInt(value[1], 10)])
       callback(parsed_data)
 
-  lineGraph: (container, metrics, tokens, range) =>
+  lineGraph: (container, metrics, tokens, range) ->
     window.chart = {}
 
-    $ =>
+    $ ->
       options =
         chart:
           animation: false
@@ -36,7 +36,7 @@ class Metric
           enabled: false
         tooltip:
           formatter: ->
-            '<strong>'+ this.series.name +'</strong><br/>'+ this.y + '<br/>' + '' + Highcharts.dateFormat('%B %d, %Y', this.x)
+            "<strong>#{this.series.name}</strong><br/>#{this.y}<br/>#{Highcharts.dateFormat('%B %d, %Y', this.x)}"
         title:
           text: null
         xAxis:
@@ -71,8 +71,8 @@ class Metric
                   enabled: true
         series: []
       $.each metrics, (index, metric) =>
-        url = @generateUrl(metric, range, tokens[index])
-        @getData url, (parsed_data) ->
+        url = window.metric.generateUrl(metric, range, tokens[index])
+        window.metric.getData url, (parsed_data) ->
           data = {type: 'line', name: metric, data: parsed_data}
           options.series.push(data)
           if index == 0
