@@ -26,7 +26,7 @@ Metric =
         chart:
           animation: false
           renderTo: container
-          defaultSeriesType: 'column'
+          type: 'line'
           marginTop: 20
           marginleft: 20
           marginright: 20
@@ -61,19 +61,12 @@ Metric =
           startOnTick: false
         legend:
           enabled: false
-        plotOptions:
-          line:
-            animation: true
-            marker:
-              enabled: true
-              states:
-                hover:
-                  enabled: true
         series: []
+
       $.each metrics, (index, metric) =>
         url = window.metric.generateUrl(metric, range, tokens[index])
         window.metric.getData url, (parsed_data) ->
-          data = {type: 'line', name: metric, data: parsed_data}
+          data = {name: metric, data: parsed_data}
           options.series.push(data)
           if index == 0
             window.chart = new Highcharts.Chart(options)

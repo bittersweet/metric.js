@@ -32,7 +32,7 @@
           chart: {
             animation: false,
             renderTo: container,
-            defaultSeriesType: 'column',
+            type: 'line',
             marginTop: 20,
             marginleft: 20,
             marginright: 20,
@@ -79,19 +79,6 @@
           legend: {
             enabled: false
           },
-          plotOptions: {
-            line: {
-              animation: true,
-              marker: {
-                enabled: true,
-                states: {
-                  hover: {
-                    enabled: true
-                  }
-                }
-              }
-            }
-          },
           series: []
         };
         return $.each(metrics, function(index, metric) {
@@ -100,7 +87,6 @@
           return window.metric.getData(url, function(parsed_data) {
             var data;
             data = {
-              type: 'line',
               name: metric,
               data: parsed_data
             };
