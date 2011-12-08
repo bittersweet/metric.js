@@ -8,6 +8,10 @@ Metric =
       tokens = [tokens]
     @lineGraph(container, metrics, tokens, range)
 
+  log: (output) ->
+    if console
+      console.log(output)
+
   generateUrl: (metric, range, token) ->
     "http://api.metric.io/receive?api_key=#{@api_key}&token=#{token}&metric=#{metric}&range=#{range}&callback=?"
 
@@ -20,9 +24,9 @@ Metric =
 
   generateTrackingUrl: (metric, amount) ->
     if amount
-      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}"
+      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=metric.log"
     else
-      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}"
+      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&callback=metric.log"
 
   sendRequest: (metric, amount) ->
     c = document.createElement("script")

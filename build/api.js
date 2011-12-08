@@ -10,6 +10,9 @@
       if (tokens.constructor === String) tokens = [tokens];
       return this.lineGraph(container, metrics, tokens, range);
     },
+    log: function(output) {
+      if (console) return console.log(output);
+    },
     generateUrl: function(metric, range, token) {
       return "http://api.metric.io/receive?api_key=" + this.api_key + "&token=" + token + "&metric=" + metric + "&range=" + range + "&callback=?";
     },
@@ -25,9 +28,9 @@
     },
     generateTrackingUrl: function(metric, amount) {
       if (amount) {
-        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount;
+        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=metric.log";
       } else {
-        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric;
+        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=metric.log";
       }
     },
     sendRequest: function(metric, amount) {

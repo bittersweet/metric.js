@@ -24,17 +24,17 @@ describe 'api', ->
   it 'generates correct tracking URL', ->
     metric = window.metric
     metric.setApiKey("1234")
-    url = 'http://api.metric.io/track?api_key=1234&metric=hits'
+    url = 'http://api.metric.io/track?api_key=1234&metric=hits&callback=metric.log'
     expect(metric.generateTrackingUrl("hits")).toEqual(url)
 
   it 'generates correct tracking URL with amount', ->
     metric = window.metric
     metric.setApiKey("1234")
-    url = 'http://api.metric.io/track?api_key=1234&metric=hits&amount=2'
+    url = 'http://api.metric.io/track?api_key=1234&metric=hits&amount=2&callback=metric.log'
     expect(metric.generateTrackingUrl("hits", 2)).toEqual(url)
 
   it 'generates script tag for tracking', ->
-    url = 'http://api.metric.io/track?api_key=1234&metric=hits&amount=2'
+    url = 'http://api.metric.io/track?api_key=1234&metric=hits&amount=2&callback=metric.log'
     metric = window.metric
     metric.setApiKey("1234")
     metric.sendRequest("hits", 2)
