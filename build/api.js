@@ -26,11 +26,16 @@
         return callback(parsed_data);
       });
     },
+    generateTimeString: function() {
+      return (new Date).getTime().toString();
+    },
     generateTrackingUrl: function(metric, amount) {
+      var time;
+      time = this.generateTimeString();
       if (amount) {
-        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=metric.log";
+        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=metric.log&time=" + time;
       } else {
-        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=metric.log";
+        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=metric.log&time=" + time;
       }
     },
     sendRequest: function(metric, amount) {

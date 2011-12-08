@@ -22,11 +22,15 @@ Metric =
         parsed_data.push([value[0], parseInt(value[1], 10)])
       callback(parsed_data)
 
+  generateTimeString: ->
+    (new Date).getTime().toString()
+
   generateTrackingUrl: (metric, amount) ->
+    time = @generateTimeString()
     if amount
-      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=metric.log"
+      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=metric.log&time=#{time}"
     else
-      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&callback=metric.log"
+      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&callback=metric.log&time=#{time}"
 
   sendRequest: (metric, amount) ->
     c = document.createElement("script")
