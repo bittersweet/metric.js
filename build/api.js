@@ -23,6 +23,23 @@
         return callback(parsed_data);
       });
     },
+    generateTrackingUrl: function(metric, amount) {
+      if (amount) {
+        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount;
+      } else {
+        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric;
+      }
+    },
+    sendRequest: function(metric, amount) {
+      var c, head;
+      c = document.createElement("script");
+      c.type = "text/javascript";
+      c.async = true;
+      c.defer = true;
+      c.src = this.generateTrackingUrl(metric, amount);
+      head = document.getElementsByTagName("head")[0];
+      return head.appendChild(c);
+    },
     lineGraph: function(container, metrics, tokens, range) {
       window.chart = {};
       return $(function() {

@@ -18,6 +18,21 @@ Metric =
         parsed_data.push([value[0], parseInt(value[1], 10)])
       callback(parsed_data)
 
+  generateTrackingUrl: (metric, amount) ->
+    if amount
+      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}"
+    else
+      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}"
+
+  sendRequest: (metric, amount) ->
+    c = document.createElement("script")
+    c.type = "text/javascript"
+    c.async = true
+    c.defer = true
+    c.src = @generateTrackingUrl(metric, amount)
+    head = document.getElementsByTagName("head")[0]
+    head.appendChild(c)
+
   lineGraph: (container, metrics, tokens, range) ->
     window.chart = {}
 
