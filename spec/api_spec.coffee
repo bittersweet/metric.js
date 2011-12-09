@@ -35,3 +35,8 @@ describe 'api', ->
     metric.sendRequest("hits")
     script = document.getElementsByTagName("script")[0]
     expect(script.getAttribute("src")).toEqual(url)
+
+  it 'uses optional callback when tracking', ->
+    spyOn(metric, 'generateTimeString').andReturn(123)
+    url = 'http://api.metric.io/track?api_key=1234&metric=hits&amount=1&callback=callback&time=123'
+    expect(metric.generateTrackingUrl("hits", 1, "callback")).toEqual(url)

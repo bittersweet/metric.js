@@ -25,19 +25,20 @@ Metric =
   generateTimeString: ->
     (new Date).getTime().toString()
 
-  generateTrackingUrl: (metric, amount) ->
+  generateTrackingUrl: (metric, amount, callback) ->
+    callback ||= "metric.log"
     time = @generateTimeString()
     if amount
-      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=metric.log&time=#{time}"
+      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=#{callback}&time=#{time}"
     else
-      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&callback=metric.log&time=#{time}"
+      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&callback=#{callback}&time=#{time}"
 
-  sendRequest: (metric, amount) ->
+  sendRequest: (metric, amount, callback) ->
     c = document.createElement("script")
     c.type = "text/javascript"
     c.async = true
     c.defer = true
-    c.src = @generateTrackingUrl(metric, amount)
+    c.src = @generateTrackingUrl(metric, amount, callback)
     head = document.getElementsByTagName("head")[0]
     head.appendChild(c)
 

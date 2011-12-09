@@ -29,22 +29,23 @@
     generateTimeString: function() {
       return (new Date).getTime().toString();
     },
-    generateTrackingUrl: function(metric, amount) {
+    generateTrackingUrl: function(metric, amount, callback) {
       var time;
+      callback || (callback = "metric.log");
       time = this.generateTimeString();
       if (amount) {
-        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=metric.log&time=" + time;
+        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=" + callback + "&time=" + time;
       } else {
-        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=metric.log&time=" + time;
+        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=" + callback + "&time=" + time;
       }
     },
-    sendRequest: function(metric, amount) {
+    sendRequest: function(metric, amount, callback) {
       var c, head;
       c = document.createElement("script");
       c.type = "text/javascript";
       c.async = true;
       c.defer = true;
-      c.src = this.generateTrackingUrl(metric, amount);
+      c.src = this.generateTrackingUrl(metric, amount, callback);
       head = document.getElementsByTagName("head")[0];
       return head.appendChild(c);
     },
