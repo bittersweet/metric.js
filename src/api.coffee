@@ -13,7 +13,7 @@ Metric =
       console.log(output)
 
   generateUrl: (metric, range, token) ->
-    "http://api.metric.io/receive?api_key=#{@api_key}&token=#{token}&metric=#{metric}&range=#{range}&callback=?"
+    "https://api.metric.io/receive?api_key=#{@api_key}&token=#{token}&metric=#{metric}&range=#{range}&callback=?"
 
   getData: (url, callback) ->
     parsed_data = []
@@ -29,9 +29,9 @@ Metric =
     callback ||= "metric.log"
     time = @generateTimeString()
     if amount
-      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=#{callback}&time=#{time}"
+      "https://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=#{callback}&time=#{time}"
     else
-      "http://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&callback=#{callback}&time=#{time}"
+      "https://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&callback=#{callback}&time=#{time}"
 
   sendRequest: (metric, amount, callback) ->
     c = document.createElement("script")

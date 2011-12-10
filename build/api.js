@@ -14,7 +14,7 @@
       if (console) return console.log(output);
     },
     generateUrl: function(metric, range, token) {
-      return "http://api.metric.io/receive?api_key=" + this.api_key + "&token=" + token + "&metric=" + metric + "&range=" + range + "&callback=?";
+      return "https://api.metric.io/receive?api_key=" + this.api_key + "&token=" + token + "&metric=" + metric + "&range=" + range + "&callback=?";
     },
     getData: function(url, callback) {
       var parsed_data;
@@ -34,9 +34,9 @@
       callback || (callback = "metric.log");
       time = this.generateTimeString();
       if (amount) {
-        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=" + callback + "&time=" + time;
+        return "https://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=" + callback + "&time=" + time;
       } else {
-        return "http://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=" + callback + "&time=" + time;
+        return "https://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=" + callback + "&time=" + time;
       }
     },
     sendRequest: function(metric, amount, callback) {
