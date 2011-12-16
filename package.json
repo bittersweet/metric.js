@@ -1,0 +1,27 @@
+{
+  "author": "Mark Mulder <markmulder@gmail.com>",
+  "name": "metric.js",
+  "description": "A library to work with the metric.io api to track and receive metrics",
+  "version": "0.0.1",
+  "keywords" : ["metric.io", "metric"],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bittersweet/metric.js.git"
+  },
+  "directories" : {
+    "lib" : "./build",
+    "test" : "./spec"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": {
+    "node": ">=0.4.8"
+  },
+  "devDependencies": {
+    "jasmine-node" : "1.0.x",
+    "jsdom" : "0.2.x",
+    "coffee-script" : "1.1.x"
+  }
+}
+
