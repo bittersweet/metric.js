@@ -7,4 +7,4 @@ all:
 	@@echo "api.coffee built and packaged"
 
 test:
-	@@jasmine-node --verbose --coffee .
+	@@jasmine-node --verbose --coffee spec
