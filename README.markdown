@@ -1,3 +1,5 @@
+# metric.js [![Build Status](https://secure.travis-ci.org/bittersweet/metric.js.png)](http://travis-ci.org/#!/bittersweet/metric.js)
+
 This is a Javascript library to work with [metric.io](https://metric.io).
 
 Currently it allows you to track metrics and also embed them, embedding requires jQuery and Highcharts.
