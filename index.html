@@ -1,15 +1,22 @@
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+    <script src="https://metric.io/javascripts/highcharts.js" type="text/javascript"></script>
     <script src="build/api.js" type="text/javascript"></script>
     <script>
-      metric.setApiKey("ff8fd3de06ea18e68a4614d52223f3c3")
+      metric.setApiKey("1234")
+      metric.setUrl("http://localhost:9000")
     </script>
   </head>
   <body>
+    <div id="hits_container"></div>
+
     <script>
       callback = function(arguments) {
         console.log(arguments);
       }
+
+      metric.getChart("hits_container", "hits", "3d30ea7633fdc9528840ffd96a96fec4", "week");
     </script>
   </body>
 </html>
