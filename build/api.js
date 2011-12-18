@@ -5,6 +5,9 @@
     setApiKey: function(api_key) {
       return this.api_key = api_key;
     },
+    setUrl: function(url) {
+      return this.url = url;
+    },
     getChart: function(container, metrics, tokens, range) {
       if (metrics.constructor === String) metrics = [metrics];
       if (tokens.constructor === String) tokens = [tokens];
@@ -14,7 +17,9 @@
       if (console) return console.log(output);
     },
     generateUrl: function(metric, range, token) {
-      return "https://api.metric.io/receive?api_key=" + this.api_key + "&token=" + token + "&metric=" + metric + "&range=" + range + "&callback=?";
+      var url;
+      url = this.url || "https://api.metric.io";
+      return "" + url + "/receive?api_key=" + this.api_key + "&token=" + token + "&metric=" + metric + "&range=" + range + "&callback=?";
     },
     getData: function(url, callback) {
       var parsed_data;
@@ -30,13 +35,14 @@
       return (new Date).getTime().toString();
     },
     generateTrackingUrl: function(metric, amount, callback) {
-      var time;
+      var time, url;
       callback || (callback = "metric.log");
       time = this.generateTimeString();
+      url = this.url || "https://api.metric.io";
       if (amount) {
-        return "https://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=" + callback + "&time=" + time;
+        return "" + url + "/track?api_key=" + this.api_key + "&metric=" + metric + "&amount=" + amount + "&callback=" + callback + "&time=" + time;
       } else {
-        return "https://api.metric.io/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=" + callback + "&time=" + time;
+        return "" + url + "/track?api_key=" + this.api_key + "&metric=" + metric + "&callback=" + callback + "&time=" + time;
       }
     },
     sendRequest: function(metric, amount, callback) {

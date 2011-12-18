@@ -1,6 +1,8 @@
 Metric =
   setApiKey: (api_key) ->
     @api_key = api_key
+  setUrl: (url) ->
+    @url = url
   getChart: (container, metrics, tokens, range) ->
     if metrics.constructor == String
       metrics = [metrics]
@@ -13,7 +15,8 @@ Metric =
       console.log(output)
 
   generateUrl: (metric, range, token) ->
-    "https://api.metric.io/receive?api_key=#{@api_key}&token=#{token}&metric=#{metric}&range=#{range}&callback=?"
+    url = @url || "https://api.metric.io"
+    "#{url}/receive?api_key=#{@api_key}&token=#{token}&metric=#{metric}&range=#{range}&callback=?"
 
   getData: (url, callback) ->
     parsed_data = []
@@ -28,10 +31,11 @@ Metric =
   generateTrackingUrl: (metric, amount, callback) ->
     callback ||= "metric.log"
     time = @generateTimeString()
+    url = @url || "https://api.metric.io"
     if amount
-      "https://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=#{callback}&time=#{time}"
+      "#{url}/track?api_key=#{@api_key}&metric=#{metric}&amount=#{amount}&callback=#{callback}&time=#{time}"
     else
-      "https://api.metric.io/track?api_key=#{@api_key}&metric=#{metric}&callback=#{callback}&time=#{time}"
+      "#{url}/track?api_key=#{@api_key}&metric=#{metric}&callback=#{callback}&time=#{time}"
 
   sendRequest: (metric, amount, callback) ->
     c = document.createElement("script")

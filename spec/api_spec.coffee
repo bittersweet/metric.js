@@ -19,6 +19,19 @@ describe 'api', ->
     url = 'https://api.metric.io/receive?api_key=1234&token=token&metric=hits&range=week&callback=?'
     expect(metric.generateUrl("hits", "week", "token")).toEqual(url)
 
+  it 'allows overriding of api endpoint when tracking', ->
+    metric.setUrl('http://localhost')
+    url = 'http://localhost/receive?api_key=1234&token=token&metric=hits&range=week&callback=?'
+    expect(metric.generateUrl("hits", "week", "token")).toEqual(url)
+    metric.setUrl('https://api.metric.io')
+
+  it 'allows overriding of api endpoint when receiving', ->
+    metric.setUrl('http://localhost')
+    spyOn(metric, 'generateTimeString').andReturn(123)
+    url = 'http://localhost/track?api_key=1234&metric=hits&callback=metric.log&time=123'
+    expect(metric.generateTrackingUrl("hits")).toEqual(url)
+    metric.setUrl('https://api.metric.io')
+
   it 'generates correct tracking URL', ->
     spyOn(metric, 'generateTimeString').andReturn(123)
     url = 'https://api.metric.io/track?api_key=1234&metric=hits&callback=metric.log&time=123'
