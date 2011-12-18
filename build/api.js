@@ -26,7 +26,7 @@
       parsed_data = [];
       return $.getJSON(url, function(data, textStatus) {
         $.each(data, function(index, value) {
-          return parsed_data.push([value[0], parseInt(value[1], 10)]);
+          return parsed_data.push([Date.parse(value[0]), parseInt(value[1], 10)]);
         });
         return callback(parsed_data);
       });

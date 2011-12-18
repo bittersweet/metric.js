@@ -22,7 +22,7 @@ Metric =
     parsed_data = []
     $.getJSON url, (data, textStatus) ->
       $.each data, (index, value) ->
-        parsed_data.push([value[0], parseInt(value[1], 10)])
+        parsed_data.push([Date.parse(value[0]), parseInt(value[1], 10)])
       callback(parsed_data)
 
   generateTimeString: ->
