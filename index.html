@@ -1,11 +1,10 @@
 <html>
   <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
-    <script src="https://metric.io/javascripts/highcharts.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
     <script src="build/api.js" type="text/javascript"></script>
     <script>
-      metric.setApiKey("1234")
-      metric.setUrl("http://localhost:9000")
+      metric.setApiKey("70b9285d8f50c10451a1f11344276159")
+      metric.setUrl("http://localhost:9292")
     </script>
   </head>
   <body>
@@ -16,7 +15,9 @@
         console.log(arguments);
       }
 
-      metric.getChart("hits_container", "hits", "3d30ea7633fdc9528840ffd96a96fec4", "week");
+      metric.track("hits");
+
+      metric.receive("hits", "week", "0e7b39f249b38ead7f93a0e68aed2a33");
     </script>
   </body>
 </html>
