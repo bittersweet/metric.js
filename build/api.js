@@ -14,20 +14,28 @@
         return console.log(output);
       }
     },
-    track: function(metric, amount, callback) {
+    track: function(metric, options) {
       var url;
-      url = this.generateTrackingUrl(metric, amount);
-      return this.sendRequest(url, callback);
+      url = this.generateTrackingUrl(metric, options);
+      return this.sendRequest(url, options.callback);
     },
     generateTimeString: function() {
       return (new Date).getTime().toString();
     },
-    generateTrackingUrl: function(metric, amount) {
-      var time, url;
+    generateTrackingUrl: function(metric, options) {
+      var amount, time, url;
+      if (options == null) {
+        options = {};
+      }
       time = this.generateTimeString();
       url = this.url || "https://api.metric.io";
-      amount || (amount = 1);
-      return "" + url + "/v1/sites/" + this.api_key + "/track?metric=" + metric + "&amount=" + amount + "&time=" + time;
+      amount = options.amount || 1;
+      if (options.meta) {
+        options.meta = encodeURIComponent(options.meta);
+        return "" + url + "/v1/sites/" + this.api_key + "/track?metric=" + metric + "&amount=" + amount + "&time=" + time + "&meta=" + options.meta;
+      } else {
+        return "" + url + "/v1/sites/" + this.api_key + "/track?metric=" + metric + "&amount=" + amount + "&time=" + time;
+      }
     },
     generateStatisticsUrl: function(metric, range, token) {
       var url;

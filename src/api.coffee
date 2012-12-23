@@ -8,18 +8,22 @@ Metric =
     if console
       console.log(output)
 
-  track: (metric, amount, callback) ->
-    url = @generateTrackingUrl(metric, amount)
-    @sendRequest(url, callback)
+  track: (metric, options = {}) ->
+    url = @generateTrackingUrl(metric, options)
+    @sendRequest(url, options.callback)
 
   generateTimeString: ->
     (new Date).getTime().toString()
 
-  generateTrackingUrl: (metric, amount) ->
+  generateTrackingUrl: (metric, options = {}) ->
     time = @generateTimeString()
     url = @url || "https://api.metric.io"
-    amount ||= 1
-    "#{url}/v1/sites/#{@api_key}/track?metric=#{metric}&amount=#{amount}&time=#{time}"
+    amount = options.amount || 1
+    if options.meta
+      options.meta = encodeURIComponent(options.meta)
+      "#{url}/v1/sites/#{@api_key}/track?metric=#{metric}&amount=#{amount}&time=#{time}&meta=#{options.meta}"
+    else
+      "#{url}/v1/sites/#{@api_key}/track?metric=#{metric}&amount=#{amount}&time=#{time}"
 
   generateStatisticsUrl: (metric, range, token) ->
     url = @url || "https://api.metric.io"
