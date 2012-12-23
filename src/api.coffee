@@ -19,15 +19,13 @@ Metric =
     time = @generateTimeString()
     url = @url || "https://api.metric.io"
     amount = options.amount || 1
-    if options.meta
-      options.meta = encodeURIComponent(options.meta)
-      "#{url}/v1/sites/#{@api_key}/track?metric=#{metric}&amount=#{amount}&time=#{time}&meta=#{options.meta}"
-    else
-      "#{url}/v1/sites/#{@api_key}/track?metric=#{metric}&amount=#{amount}&time=#{time}"
+    url = "#{url}/v1/sites/#{@api_key}/track"
+    @buildUrl(url, {metric: metric, amount: amount, time: time, meta: options.meta})
 
   generateStatisticsUrl: (metric, range, token) ->
     url = @url || "https://api.metric.io"
-    "#{url}/v1/sites/#{@api_key}/statistics?metric=#{metric}&range=#{range}&token=#{token}"
+    url = "#{url}/v1/sites/#{@api_key}/statistics"
+    @buildUrl(url, {metric; metric, range: range, token: token})
 
   receive: (metric, amount, token) ->
     url = @generateStatisticsUrl(metric, amount, token)
@@ -45,6 +43,18 @@ Metric =
           else
             Metric.log("Bad HTTP status", request.status, request.statusText)
       request.send();
+
+  buildUrl: (url, parameters) ->
+    querystring = ""
+    for key, value of parameters
+      if value
+        querystring += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&"
+
+    if querystring.length > 0
+      querystring = querystring.substring(0, querystring.length - 1)
+      url = url + "?" + querystring
+
+    url
 
 if typeof window == 'undefined'
   this.metric = Metric

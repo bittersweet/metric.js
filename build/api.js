@@ -16,6 +16,9 @@
     },
     track: function(metric, options) {
       var url;
+      if (options == null) {
+        options = {};
+      }
       url = this.generateTrackingUrl(metric, options);
       return this.sendRequest(url, options.callback);
     },
@@ -30,17 +33,24 @@
       time = this.generateTimeString();
       url = this.url || "https://api.metric.io";
       amount = options.amount || 1;
-      if (options.meta) {
-        options.meta = encodeURIComponent(options.meta);
-        return "" + url + "/v1/sites/" + this.api_key + "/track?metric=" + metric + "&amount=" + amount + "&time=" + time + "&meta=" + options.meta;
-      } else {
-        return "" + url + "/v1/sites/" + this.api_key + "/track?metric=" + metric + "&amount=" + amount + "&time=" + time;
-      }
+      url = "" + url + "/v1/sites/" + this.api_key + "/track";
+      return this.buildUrl(url, {
+        metric: metric,
+        amount: amount,
+        time: time,
+        meta: options.meta
+      });
     },
     generateStatisticsUrl: function(metric, range, token) {
       var url;
       url = this.url || "https://api.metric.io";
-      return "" + url + "/v1/sites/" + this.api_key + "/statistics?metric=" + metric + "&range=" + range + "&token=" + token;
+      url = "" + url + "/v1/sites/" + this.api_key + "/statistics";
+      return this.buildUrl(url, {
+        metric: metric,
+        metric: metric,
+        range: range,
+        token: token
+      });
     },
     receive: function(metric, amount, token) {
       var url;
@@ -64,6 +74,21 @@
         };
         return request.send();
       }
+    },
+    buildUrl: function(url, parameters) {
+      var key, querystring, value;
+      querystring = "";
+      for (key in parameters) {
+        value = parameters[key];
+        if (value) {
+          querystring += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
+        }
+      }
+      if (querystring.length > 0) {
+        querystring = querystring.substring(0, querystring.length - 1);
+        url = url + "?" + querystring;
+      }
+      return url;
     }
   };
 
