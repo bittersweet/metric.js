@@ -44,14 +44,21 @@ Metric =
             Metric.log("Bad HTTP status", request.status, request.statusText)
       request.send();
 
-  buildUrl: (url, parameters) ->
-    querystring = ""
-    for key, value of parameters
+  serialize: (object, prefix) ->
+    str = []
+    for key, value of object
       if value
-        querystring += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&"
+        k = if prefix then prefix + "[" + key + "]" else key
+        if typeof value == "object"
+          str.push(@serialize(value, k))
+        else
+          str.push(encodeURIComponent(k) + "=" + encodeURIComponent(value))
 
+    str.join("&")
+
+  buildUrl: (url, parameters) ->
+    querystring = @serialize(parameters)
     if querystring.length > 0
-      querystring = querystring.substring(0, querystring.length - 1)
       url = url + "?" + querystring
 
     url

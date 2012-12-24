@@ -75,17 +75,26 @@
         return request.send();
       }
     },
-    buildUrl: function(url, parameters) {
-      var key, querystring, value;
-      querystring = "";
-      for (key in parameters) {
-        value = parameters[key];
+    serialize: function(object, prefix) {
+      var k, key, str, value;
+      str = [];
+      for (key in object) {
+        value = object[key];
         if (value) {
-          querystring += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
+          k = prefix ? prefix + "[" + key + "]" : key;
+          if (typeof value === "object") {
+            str.push(this.serialize(value, k));
+          } else {
+            str.push(encodeURIComponent(k) + "=" + encodeURIComponent(value));
+          }
         }
       }
+      return str.join("&");
+    },
+    buildUrl: function(url, parameters) {
+      var querystring;
+      querystring = this.serialize(parameters);
       if (querystring.length > 0) {
-        querystring = querystring.substring(0, querystring.length - 1);
         url = url + "?" + querystring;
       }
       return url;
