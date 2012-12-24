@@ -15,6 +15,8 @@
         console.log(arguments);
       }
 
+      metric.setCustomer({"id": 4, "email": "email@example.com"});
+      /* metric.track('hits', {"customer": {"id": "1"}}) */
       metric.track("hits");
 
       metric.receive("hits", "week", "0e7b39f249b38ead7f93a0e68aed2a33");

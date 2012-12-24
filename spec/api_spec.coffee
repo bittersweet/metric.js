@@ -59,3 +59,16 @@ describe 'api', ->
     options = {metric: 'hits', amount: 2, customer: {'id': 1}}
     expect(metric.buildUrl("track", options)).toEqual(url)
 
+  it 'allows setting of customer when tracking', ->
+    spyOn(metric, 'generateTimeString').andReturn(123)
+    url = 'https://api.metric.io/v1/sites/1234/track?metric=hits&amount=1&time=123&customer%5Bid%5D=1'
+    options = {"customer": {"id": 1}}
+    expect(metric.generateTrackingUrl("hits", options)).toEqual(url)
+
+  it 'sets customer globally', ->
+    spyOn(metric, 'generateTimeString').andReturn(123)
+    url = 'https://api.metric.io/v1/sites/1234/track?metric=hits&amount=1&time=123&customer%5Bid%5D=1'
+    options = {"customer": {"id": 1}}
+    metric.setCustomer({"id": 1})
+    expect(metric.generateTrackingUrl("hits", options)).toEqual(url)
+

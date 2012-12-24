@@ -3,6 +3,8 @@ Metric =
     @api_key = api_key
   setUrl: (url) ->
     @url = url
+  setCustomer: (customer) ->
+    @customer = customer
 
   log: (output) ->
     if console
@@ -25,7 +27,7 @@ Metric =
       amount: amount
       time: time
       meta: options.meta
-      customer: options.customer
+      customer: @customer ||= options.customer
     @buildUrl(url, parameters)
 
   generateStatisticsUrl: (metric, range, token) ->

@@ -9,6 +9,9 @@
     setUrl: function(url) {
       return this.url = url;
     },
+    setCustomer: function(customer) {
+      return this.customer = customer;
+    },
     log: function(output) {
       if (console) {
         return console.log(output);
@@ -39,7 +42,7 @@
         amount: amount,
         time: time,
         meta: options.meta,
-        customer: options.customer
+        customer: this.customer || (this.customer = options.customer)
       };
       return this.buildUrl(url, parameters);
     },
@@ -48,7 +51,6 @@
       url = this.url || "https://api.metric.io";
       url = "" + url + "/v1/sites/" + this.api_key + "/statistics";
       return this.buildUrl(url, {
-        metric: metric,
         metric: metric,
         range: range,
         token: token
