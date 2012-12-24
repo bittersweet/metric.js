@@ -26,7 +26,7 @@
       return (new Date).getTime().toString();
     },
     generateTrackingUrl: function(metric, options) {
-      var amount, time, url;
+      var amount, parameters, time, url;
       if (options == null) {
         options = {};
       }
@@ -34,12 +34,14 @@
       url = this.url || "https://api.metric.io";
       amount = options.amount || 1;
       url = "" + url + "/v1/sites/" + this.api_key + "/track";
-      return this.buildUrl(url, {
+      parameters = {
         metric: metric,
         amount: amount,
         time: time,
-        meta: options.meta
-      });
+        meta: options.meta,
+        customer: options.customer
+      };
+      return this.buildUrl(url, parameters);
     },
     generateStatisticsUrl: function(metric, range, token) {
       var url;

@@ -43,10 +43,19 @@ describe 'api', ->
     options = {amount: 2}
     expect(metric.generateTrackingUrl("hits", options)).toEqual(url)
 
-
   it 'generates correct tracking URL with meta', ->
     spyOn(metric, 'generateTimeString').andReturn(123)
     url = 'https://api.metric.io/v1/sites/1234/track?metric=hits&amount=2&time=123&meta=user%201'
     options = {amount: 2, meta: 'user 1'}
     expect(metric.generateTrackingUrl("hits", options)).toEqual(url)
+
+  it 'builds url', ->
+    url = 'track?metric=hits&amount=2&meta=user%201'
+    options = {metric: 'hits', amount: 2, meta: 'user 1'}
+    expect(metric.buildUrl("track", options)).toEqual(url)
+
+  it 'builds url with nested objects', ->
+    url = 'track?metric=hits&amount=2&customer%5Bid%5D=1'
+    options = {metric: 'hits', amount: 2, customer: {'id': 1}}
+    expect(metric.buildUrl("track", options)).toEqual(url)
 

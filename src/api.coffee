@@ -20,12 +20,18 @@ Metric =
     url = @url || "https://api.metric.io"
     amount = options.amount || 1
     url = "#{url}/v1/sites/#{@api_key}/track"
-    @buildUrl(url, {metric: metric, amount: amount, time: time, meta: options.meta})
+    parameters =
+      metric: metric
+      amount: amount
+      time: time
+      meta: options.meta
+      customer: options.customer
+    @buildUrl(url, parameters)
 
   generateStatisticsUrl: (metric, range, token) ->
     url = @url || "https://api.metric.io"
     url = "#{url}/v1/sites/#{@api_key}/statistics"
-    @buildUrl(url, {metric; metric, range: range, token: token})
+    @buildUrl(url, {metric: metric, range: range, token: token})
 
   receive: (metric, amount, token) ->
     url = @generateStatisticsUrl(metric, amount, token)
@@ -42,7 +48,7 @@ Metric =
             callback(request.responseText)
           else
             Metric.log("Bad HTTP status", request.status, request.statusText)
-      request.send();
+      request.send()
 
   serialize: (object, prefix) ->
     str = []
